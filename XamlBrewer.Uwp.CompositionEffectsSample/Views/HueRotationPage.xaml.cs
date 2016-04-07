@@ -1,7 +1,6 @@
 ﻿using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition.Toolkit;
 using System;
-using System.Linq;
 using System.Numerics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -34,6 +33,12 @@ namespace XamlBrewer.Uwp.CompositionEffects
             _root = Container.GetVisual();
             _compositor = _root.Compositor;
             _imageFactory = CompositionImageFactory.CreateCompositionImageFactory(_compositor);
+            _spriteVisual = _compositor.CreateSpriteVisual();
+            _root.Children.InsertAtTop(_spriteVisual);
+
+            // Create the visual and add it to the composition tree
+            var side = (float)Math.Min(Presenter.ActualWidth, Presenter.ActualHeight);
+            _spriteVisual.Size = new Vector2(side, side);
 
             // Create the effect, but don't specify the Angle yet.
             var hueRotationEffect = new HueRotationEffect
@@ -45,8 +50,9 @@ namespace XamlBrewer.Uwp.CompositionEffects
             // Compile the effect
             var effectFactory = _compositor.CreateEffectFactory(hueRotationEffect, new[] { "hueRotation.Angle" });
 
-            // Create the brush.
+            // Create and apply the brush.
             _brush = effectFactory.CreateBrush();
+            _spriteVisual.Brush = _brush;
 
             ColorWheelButton.IsChecked = true;
         }
@@ -77,19 +83,6 @@ namespace XamlBrewer.Uwp.CompositionEffects
         {
             // Apply parameter to brush.
             _brush.Properties.InsertScalar("hueRotation.Angle", angle);
-
-            // Create the visual and add it to the composition tree
-            _spriteVisual = _compositor.CreateSpriteVisual();
-            var side = (float)Math.Min(Presenter.ActualWidth, Presenter.ActualHeight);
-            _spriteVisual.Size = new Vector2(side, side);
-            _spriteVisual.Brush = _brush;
-
-            _root.Children.InsertAtTop(_spriteVisual);
-
-            if (_root.Children.Count > 1)
-            {
-                _root.Children.Remove(_root.Children.First());
-            }
         }
 
         private void ColorWheel_Checked(object sender, RoutedEventArgs e)
