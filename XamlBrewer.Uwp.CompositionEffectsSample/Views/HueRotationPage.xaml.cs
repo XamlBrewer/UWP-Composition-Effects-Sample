@@ -33,12 +33,12 @@ namespace XamlBrewer.Uwp.CompositionEffects
             _root = Container.GetVisual();
             _compositor = _root.Compositor;
             _imageFactory = CompositionImageFactory.CreateCompositionImageFactory(_compositor);
-            _spriteVisual = _compositor.CreateSpriteVisual();
-            _root.Children.InsertAtTop(_spriteVisual);
 
-            // Create the visual and add it to the composition tree
+            // Hook the sprite visual into the XAML visual tree.
+            _spriteVisual = _compositor.CreateSpriteVisual();
             var side = (float)Math.Min(Presenter.ActualWidth, Presenter.ActualHeight);
             _spriteVisual.Size = new Vector2(side, side);
+            _root.Children.InsertAtTop(_spriteVisual);
 
             // Create the effect, but don't specify the Angle yet.
             var hueRotationEffect = new HueRotationEffect
@@ -102,7 +102,6 @@ namespace XamlBrewer.Uwp.CompositionEffects
 
         private void Presenter_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // This code actually belongs in a behavior, or in a custom control ("CompositionPanel").
             var side = (float)Math.Min(Presenter.ActualWidth, Presenter.ActualHeight);
             if (_spriteVisual != null)
             {
