@@ -98,6 +98,7 @@ namespace XamlBrewer.Uwp.CompositionEffects
         private void Saturation_Checked(object sender, RoutedEventArgs e)
         {
             LoadImage(new Uri("ms-appx:///Assets/saturationandbrightness.png"));
+            // LoadImage(new Uri("ms-appx:///Assets/flowers.jpg"));
         }
 
         private void Presenter_SizeChanged(object sender, SizeChangedEventArgs e)

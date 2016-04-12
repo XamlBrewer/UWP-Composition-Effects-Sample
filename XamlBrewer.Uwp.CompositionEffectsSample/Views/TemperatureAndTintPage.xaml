@@ -1,0 +1,59 @@
+﻿<Page x:Class="XamlBrewer.Uwp.CompositionEffects.TemperatureAndTintPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:XamlBrewer.Uwp.CompositionEffects"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid Background="Transparent"
+          Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <RadioButton x:Name="ColorWheelButton"
+                         Content="Color Wheel"
+                         Checked="ColorWheel_Checked"
+                         Margin="20" />
+            <RadioButton Content="White Gradient"
+                         Checked="White_Checked"
+                         Margin="20" />
+            <RadioButton Content="Colorful"
+                         Checked="Colorful_Checked"
+                         Margin="20" />
+        </StackPanel>
+        <ContentPresenter x:Name="Presenter"
+                          SizeChanged="Presenter_SizeChanged"
+                          Grid.Row="1"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch">
+            <Grid x:Name="Container"
+                  Margin="0" />
+        </ContentPresenter>
+        <Slider x:Name="TemperatureSlider"
+                Grid.Row="2"
+                Header="Temperature"
+                ValueChanged="Temperature_ValueChanged"
+                Minimum="-1"
+                Maximum="1"
+                StepFrequency=".05"
+                Value="0"
+                VerticalAlignment="Stretch"
+                Margin="20" />
+        <Slider x:Name="TintSlider"
+                Grid.Row="3"
+                Header="Tint"
+                ValueChanged="Tint_ValueChanged"
+                Minimum="-1"
+                Maximum="1"
+                StepFrequency=".05"
+                Value="0"
+                VerticalAlignment="Stretch"
+                Margin="20" />
+    </Grid>
+</Page>

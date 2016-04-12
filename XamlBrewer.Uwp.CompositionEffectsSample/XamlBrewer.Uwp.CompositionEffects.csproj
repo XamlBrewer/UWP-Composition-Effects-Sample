@@ -95,6 +95,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChainingPage.xaml.cs">
+      <DependentUpon>ChainingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TemperatureAndTintPage.xaml.cs">
+      <DependentUpon>TemperatureAndTintPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HueRotationPage.xaml.cs">
       <DependentUpon>HueRotationPage.xaml</DependentUpon>
     </Compile>
@@ -117,8 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\blackandwhitegradient.png" />
+    <Content Include="Assets\colorTheme.jpg" />
     <Content Include="Assets\colorwheel.png" />
+    <Content Include="Assets\flowers.jpg" />
+    <Content Include="Assets\people.jpg" />
     <Content Include="Assets\saturationandbrightness.png" />
+    <Content Include="Assets\whitegradient.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -133,6 +143,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\ChainingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TemperatureAndTintPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\HueRotationPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
