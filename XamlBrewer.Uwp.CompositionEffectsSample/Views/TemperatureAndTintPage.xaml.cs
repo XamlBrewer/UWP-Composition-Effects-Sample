@@ -21,6 +21,8 @@ namespace XamlBrewer.Uwp.CompositionEffects
         private SpriteVisual _spriteVisual;
         private CompositionEffectBrush _brush;
 
+        private string _temperatureParameter;
+
         public TemperatureAndTintPage()
         {
             this.InitializeComponent();
@@ -47,10 +49,13 @@ namespace XamlBrewer.Uwp.CompositionEffects
                 Source = new CompositionEffectSourceParameter("source")
             };
 
+            // Strongly typed version of the "temperatureAndtint.Temperature" string
+            _temperatureParameter = temperatureAndTintEffect.Name + "." + nameof(temperatureAndTintEffect.Temperature);
+
             // Compile the effect
             var effectFactory = _compositor.CreateEffectFactory(
-                temperatureAndTintEffect, 
-                new[] { "temperatureAndtint.Temperature", "temperatureAndtint.Tint" });
+                temperatureAndTintEffect,
+                new[] { _temperatureParameter, "temperatureAndtint.Tint" });
 
             // Create and apply the brush.
             _brush = effectFactory.CreateBrush();
@@ -78,21 +83,21 @@ namespace XamlBrewer.Uwp.CompositionEffects
             ChangeTemperature((float)e.NewValue);
         }
 
-        private void ChangeTemperature(float angle)
-        {
-            // Apply parameter to brush.
-            _brush.Properties.InsertScalar("temperatureAndtint.Temperature", angle);
-        }
-
         private void Tint_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             ChangeTint((float)e.NewValue);
         }
 
-        private void ChangeTint(float angle)
+        private void ChangeTemperature(float temperature)
         {
             // Apply parameter to brush.
-            _brush.Properties.InsertScalar("temperatureAndtint.Tint", angle);
+            _brush.Properties.InsertScalar(_temperatureParameter, temperature);
+        }
+
+        private void ChangeTint(float tint)
+        {
+            // Apply parameter to brush.
+            _brush.Properties.InsertScalar("temperatureAndtint.Tint", tint);
         }
 
         private void ColorWheel_Checked(object sender, RoutedEventArgs e)
