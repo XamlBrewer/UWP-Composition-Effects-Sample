@@ -8,6 +8,48 @@
     mc:Ignorable="d">
 
     <Grid Background="Transparent" Margin="20">
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ContentPresenter x:Name="LeftPresenter"
+                          SizeChanged="Presenter_SizeChanged"
+                          Grid.Column="0"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch">
+            <Grid x:Name="LeftContainer"
+                  Margin="0" />
+        </ContentPresenter>
+        <TextBlock Grid.Column="1"
+                   Text="+"
+                   FontSize="80"
+                   Foreground="{StaticResource SplitViewBackgroundBrush}"
+                   Margin="10"
+                   VerticalAlignment="Center" />
+        <ContentPresenter x:Name="MiddlePresenter"
+                          SizeChanged="Presenter_SizeChanged"
+                          Grid.Column="2"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch">
+            <Grid x:Name="MiddleContainer"
+                  Margin="0" />
+        </ContentPresenter>
+        <TextBlock Grid.Column="3"
+                   Text="="
+                   FontSize="80"
+                   Foreground="{StaticResource SplitViewBackgroundBrush}"
+                   Margin="10"
+                   VerticalAlignment="Center" />
+        <ContentPresenter x:Name="RightPresenter"
+                          SizeChanged="Presenter_SizeChanged"
+                          Grid.Column="5"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch">
+            <Grid x:Name="RightContainer"
+                  Margin="0" />
+        </ContentPresenter>
     </Grid>
 </Page>
