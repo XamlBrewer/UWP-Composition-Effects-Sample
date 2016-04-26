@@ -8,6 +8,10 @@
     mc:Ignorable="d">
 
     <Grid Background="Transparent" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
@@ -51,5 +55,11 @@
             <Grid x:Name="RightContainer"
                   Margin="0" />
         </ContentPresenter>
+        <Slider Grid.Row="1"
+                ValueChanged="Slider_ValueChanged"
+                Minimum="0"
+                Maximum="1"
+                StepFrequency=".05"
+                Value="0.5" />
     </Grid>
 </Page>

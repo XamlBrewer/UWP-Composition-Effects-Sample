@@ -1,22 +1,14 @@
 ﻿using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition.Toolkit;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Graphics.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace XamlBrewer.Uwp.CompositionEffects
 {
@@ -34,6 +26,8 @@ namespace XamlBrewer.Uwp.CompositionEffects
         private CompositionEffectBrush _effectBrush1;
         private CompositionEffectBrush _effectBrush2;
         private CompositionEffectBrush _combinedBrush;
+        private IGraphicsEffect _firstEffect;
+        private InvertEffect _combinedEffect;
 
         public ChainingPage()
         {
@@ -73,34 +67,32 @@ namespace XamlBrewer.Uwp.CompositionEffects
             _imageBrush.Surface = imageSource.Surface;
 
             // Create and apply the first effect.
-            var firstEffect = new InvertEffect
+            _firstEffect = new SaturationEffect
             {
                 Name = "firstEffect",
-                Source = new CompositionEffectSourceParameter("source") 
+                Source = new CompositionEffectSourceParameter("source")
             };
-            var firstEffectFactory = _compositor.CreateEffectFactory(firstEffect);
+            var firstEffectFactory = _compositor.CreateEffectFactory(_firstEffect, new[] { "firstEffect.Saturation" });
             _effectBrush1 = firstEffectFactory.CreateBrush();
             _leftSpriteVisual.Brush = _effectBrush1;
 
             // Create and apply the second effect.
-            var secondEffect = new SaturationEffect
+            var secondEffect = new InvertEffect
             {
                 Name = "secondEffect",
-                Source = new CompositionEffectSourceParameter("source"),
-                Saturation = 0
+                Source = new CompositionEffectSourceParameter("source")
             };
             var secondEffectFactory = _compositor.CreateEffectFactory(secondEffect);
             _effectBrush2 = secondEffectFactory.CreateBrush();
             _middleSpriteVisual.Brush = _effectBrush2;
 
             // Create and apply the combined effect.
-            var combinedEffect = new SaturationEffect
+            _combinedEffect = new InvertEffect
             {
                 Name = "chained",
-                Source = firstEffect,
-                Saturation = 0
+                Source = _firstEffect
             };
-            var combinedEffectFactory = _compositor.CreateEffectFactory(combinedEffect);
+            var combinedEffectFactory = _compositor.CreateEffectFactory(_combinedEffect, new[] { "firstEffect.Saturation" });
             _combinedBrush = combinedEffectFactory.CreateBrush();
             _rightSpriteVisual.Brush = _combinedBrush;
 
@@ -128,6 +120,16 @@ namespace XamlBrewer.Uwp.CompositionEffects
             if (horizontalMargin > 0 || verticalMargin > 0)
             {
                 presenter.Padding = new Thickness(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin);
+            }
+        }
+
+        private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (_effectBrush1 != null)
+            {
+                // Apply parameter to brushes.
+                _effectBrush1.Properties.InsertScalar("firstEffect.Saturation", (float)e.NewValue);
+                _combinedBrush.Properties.InsertScalar("firstEffect.Saturation", (float)e.NewValue);
             }
         }
     }
